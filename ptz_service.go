@@ -3,6 +3,8 @@ package onvif
 import (
 	"github.com/inspii/onvif/onvif"
 	"github.com/inspii/onvif/ptz"
+	"github.com/inspii/onvif/xsd"
+	"time"
 )
 
 type PTZService struct {
@@ -21,7 +23,7 @@ func (s *PTZService) WithoutAuth() *PTZService {
 	}
 }
 
-func (s *PTZService) ContinuousMove(profileToken string, x, y, zoom float64) (res ptz.ContinuousMoveResponse, err error) {
+func (s *PTZService) ContinuousMove(profileToken string, x, y, zoom float64, timeout time.Duration) (res ptz.ContinuousMoveResponse, err error) {
 	req := ptz.ContinuousMove{
 		ProfileToken: onvif.ReferenceToken(profileToken),
 		Velocity: onvif.PTZSpeed{
@@ -35,6 +37,7 @@ func (s *PTZService) ContinuousMove(profileToken string, x, y, zoom float64) (re
 				Space: "http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace",
 			},
 		},
+		Timeout: xsd.Duration(timeout),
 	}
 	err = s.Client.Call(req, &res)
 	return

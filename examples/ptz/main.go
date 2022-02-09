@@ -19,6 +19,6 @@ func main() {
 	}, func(message string) {
 		fmt.Println(message)
 	})
-	resp, err := camera.PTZ.ContinuousMove("Profile_1", -0.5, 0, 0)
+	resp, err := camera.PTZ.ContinuousMove("Profile_1", 0.5, 0, 0, 0)
 	fmt.Println(resp)
 }
